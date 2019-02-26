@@ -36,21 +36,22 @@ def generate_all_parts(output_dict):
         i += 1
     return partlist
 
-def layeroncanvas(partlist, canvas, margin):
+def layeroncanvas(partlist, banner, canvas, margin):
+    canvas.paste(banner, ((canvas.width//2) - (banner.width//2), 0), banner)
     for i in range(len(partlist)):
         if i == 0:
-            canvas.paste(partlist[i], ((i+1) * margin, margin), partlist[i])
+            canvas.paste(partlist[i], ((i+1) * margin, margin + banner.height), partlist[i])
         else:
-            canvas.paste(partlist[i], (((i+1) * margin) + (partlist[i-1].width * i), margin), partlist[i])
+            canvas.paste(partlist[i], (((i+1) * margin) + (partlist[i-1].width * i), margin + banner.height), partlist[i])
     return canvas
 
-def create_canvas(partlist, margin):
+def create_canvas(partlist, margin, banner):
     # Calculate largest part height
     max_height = 0
     for i in partlist:
         if i.height > max_height:
             max_height = i.height
-    height = max_height + 2 * margin
+    height = max_height + 2 * margin + banner.height
     width = (partlist[0].width * len(partlist)) + (margin * (len(partlist) + 1))
     im = Image.new('RGBA', (width, height), (0,255,255,255))
     return im

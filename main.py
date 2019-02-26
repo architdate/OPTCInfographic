@@ -3,6 +3,9 @@ import images
 import infographic
 import PIL, os, glob
 from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
+import requests
+import shutil
 import os
 
 my_path = os.path.abspath(os.path.dirname(__file__))
@@ -12,6 +15,13 @@ if not os.path.exists(PATH):
     os.makedirs(PATH)
 
 output_dict = {}
+
+banner_url = input("Please input banner image URL (refer: http://news.gb.onepiece-tc.jp/news/html/onepiece-tc-news.html): ")
+response = requests.get(banner_url, stream=True, verify=False)
+with open(os.path.join(PATH, 'banner.png'), 'wb') as out_file:
+    shutil.copyfileobj(response.raw, out_file)
+del response
+banner = Image.open(os.path.join(PATH, 'banner.png')).convert('RGBA')
 
 #parts = userinput.getUserInputs()
 parts = 3
@@ -27,7 +37,7 @@ while i < parts:
 
 os.chdir(PATH)
 partlist = infographic.generate_all_parts(output_dict)
-canvas = infographic.create_canvas(partlist, 56)
-final = infographic.layeroncanvas(partlist, canvas, 56)
+canvas = infographic.create_canvas(partlist, 56, banner)
+final = infographic.layeroncanvas(partlist, banner, canvas, 56)
 
 final.save('infographic.png')
