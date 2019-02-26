@@ -25,6 +25,13 @@ banner = Image.open(os.path.join(PATH, 'banner.png')).convert('RGBA')
 
 #parts = userinput.getUserInputs()
 parts = 3
+
+parttexts = []
+i = 0
+while i < parts:
+    parttexts.append(input("Please enter the Text to be displayed for Part {} (date): ".format(i+1)))
+    i += 1
+
 i = 0
 while i < parts:
     subpathlegends = 'part{}legends'.format(i+1)
@@ -36,7 +43,7 @@ while i < parts:
     i += 1
 
 os.chdir(PATH)
-partlist = infographic.generate_all_parts(output_dict)
+partlist = infographic.generate_all_parts(output_dict, parttexts)
 canvas = infographic.create_canvas(partlist, 56, banner)
 final = infographic.layeroncanvas(partlist, banner, canvas, 56)
 

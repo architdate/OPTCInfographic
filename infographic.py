@@ -8,19 +8,29 @@
 import PIL, os, glob
 from PIL import Image, ImageFont, ImageDraw
 from math import ceil, floor
+import textwrap
 
 my_path = os.path.abspath(os.path.dirname(__file__))
 OUTPUTS = os.path.join(my_path, "images\\outputs")
 
-def generate_part(legend_img, rr_img, img_width, img_height, rows, name):
+def generate_part(legend_img, rr_img, img_width, img_height, rows, name, text):
     part_width = img_width * 7
     part_height = rows * img_height + int(3.5 * img_height)
-    part_img = Image.new('RGBA', (part_width, part_height), (0,0,0,200))
+    part_img = Image.new('RGBA', (part_width, part_height), (0,0,0,220))
     part_img.paste(legend_img, (img_width, 2 * img_height), legend_img)
     part_img.paste(rr_img, (img_width ,legend_img.height + 3 * img_height), rr_img)
+    draw = ImageDraw.Draw(part_img)
+    font = ImageFont.truetype(os.path.join(my_path,"Comic Sans MS.ttf"), 32)
+    partfont = ImageFont.truetype(os.path.join(my_path,"Comic Sans MS.ttf"), 40)
+    y_text = img_height//4
+    draw.text(((part_width-partfont.getsize(name)[0])/2, y_text), name, fill="white", font=partfont)
+    for line in text.split('\\n'):
+        w, h = font.getsize(line)
+        y_text += h
+        draw.text(((part_width-w)/2, y_text), line, fill="white", font=font)
     return part_img
 
-def generate_all_parts(output_dict):
+def generate_all_parts(output_dict, parttexts):
     parts = len(output_dict)/2
     partlist = []
     i = 0
@@ -32,7 +42,7 @@ def generate_all_parts(output_dict):
         width = output_dict[legendimgname]['img_width']
         height = output_dict[legendimgname]['img_height']
         rows = output_dict[legendimgname]['rows'] + output_dict[rrimgname]['rows']
-        partlist.append(generate_part(legends, rrs, width, height, rows, 'part{}'.format(i+1)))
+        partlist.append(generate_part(legends, rrs, width, height, rows, 'Part {}'.format(i+1), parttexts[i]))
         i += 1
     return partlist
 
