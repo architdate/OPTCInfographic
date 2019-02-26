@@ -10,19 +10,22 @@ images_per_row = 5
 padding = 0
 
 def generate_clumped_image(subpath):
-
+    retdict = {}
     os.chdir(os.path.join(PATH, subpath))
 
     images = glob.glob("*.png")
     images = images[:30]                #get the first 30 images
 
     img_width, img_height = Image.open(images[0]).size
+    retdict['img_width'] = img_width # 112 for OPTC
+    retdict['img_height'] = img_height # 112 for OPTC
     frame_width = img_width * images_per_row
     sf = (frame_width-(images_per_row-1)*padding)/(images_per_row*img_width)       #scaling factor
     scaled_img_width = ceil(img_width*sf)                   #s
     scaled_img_height = ceil(img_height*sf)
 
     number_of_rows = ceil(len(images)/images_per_row)
+    retdict['rows'] = number_of_rows
     frame_height = ceil(sf*img_height*number_of_rows) 
 
     new_im = Image.new('RGBA', (frame_width, frame_height), (0, 0, 0, 0))
@@ -46,10 +49,10 @@ def generate_clumped_image(subpath):
             reset_i = True
         
         new_im.paste(im, (i,y_cord))
-        print(i, y_cord)
         i=(i+scaled_img_width)+padding
         j+=1
 
     if not os.path.exists(os.path.join(PATH, 'outputs')):
         os.makedirs(os.path.join(PATH, 'outputs'))
     new_im.save("{}\\{}.png".format(os.path.join(PATH, 'outputs'), subpath), "PNG")
+    return retdict
