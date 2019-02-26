@@ -1,6 +1,8 @@
 import userinput
 import images
 import infographic
+import PIL, os, glob
+from PIL import Image, ImageFont, ImageDraw
 import os
 
 my_path = os.path.abspath(os.path.dirname(__file__))
@@ -11,7 +13,8 @@ if not os.path.exists(PATH):
 
 output_dict = {}
 
-parts = userinput.getUserInputs()
+#parts = userinput.getUserInputs()
+parts = 3
 i = 0
 while i < parts:
     subpathlegends = 'part{}legends'.format(i+1)
@@ -23,4 +26,8 @@ while i < parts:
     i += 1
 
 os.chdir(PATH)
-infographic.generate_all_parts(output_dict)
+partlist = infographic.generate_all_parts(output_dict)
+canvas = infographic.create_canvas(partlist, 56)
+final = infographic.layeroncanvas(partlist, canvas, 56)
+
+final.save('infographic.png')
