@@ -23,8 +23,7 @@ with open(os.path.join(PATH, 'banner.png'), 'wb') as out_file:
 del response
 banner = Image.open(os.path.join(PATH, 'banner.png')).convert('RGBA')
 
-#parts = userinput.getUserInputs()
-parts = 3
+parts = userinput.getUserInputs()
 
 parttexts = []
 i = 0
