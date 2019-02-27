@@ -16,7 +16,7 @@ OUTPUTS = os.path.join(my_path, "images\\outputs")
 def generate_part(legend_img, rr_img, img_width, img_height, rows, name, text):
     part_width = img_width * 7
     part_height = rows * img_height + int(3.5 * img_height)
-    part_img = Image.new('RGBA', (part_width, part_height), (0,0,0,220))
+    part_img = Image.new('RGBA', (part_width, part_height), (0,0,0,190))
     part_img.paste(legend_img, (img_width, 2 * img_height), legend_img)
     part_img.paste(rr_img, (img_width ,legend_img.height + 3 * img_height), rr_img)
     draw = ImageDraw.Draw(part_img)
@@ -63,6 +63,8 @@ def create_canvas(partlist, margin, banner):
             max_height = i.height
     height = max_height + 2 * margin + banner.height
     width = (partlist[0].width * len(partlist)) + (margin * (len(partlist) + 1))
-    im = Image.new('RGBA', (width, height), (0,255,255,255))
-    return im
-
+    if not os.path.exists(os.path.join(my_path, 'images\\background.png')):
+        return Image.new('RGBA', (width, height), (0,255,255,255))
+    else:
+        img = Image.open(os.path.join(my_path, 'images\\background.png'))
+        return img.resize((width, height), PIL.Image.ANTIALIAS)
