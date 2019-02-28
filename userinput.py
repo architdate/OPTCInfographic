@@ -2,6 +2,7 @@
 import os
 import requests
 import shutil
+import json
 
 def createPartDirs(n):
     i = 0
@@ -14,8 +15,46 @@ def createPartDirs(n):
             os.makedirs(rrdir)
         i += 1
 
+def checkJSONvalidity(sugo):
+    if 'parts' not in sugo.keys():
+        return False
+    else:
+        if len(sugo.keys()) != (2 * int(sugo['parts']) + 1):
+            return False
+        i = 0
+        while i < int(sugo['parts']):
+            if 'part{}legends'.format(i+1) not in sugo.keys():
+                return False
+            if 'part{}rr'.format(i+1) not in sugo.keys():
+                return False
+            i += 1
+        return True
 
 def getUserInputs():
+    if os.path.exists(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sugofest.json')):
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sugofest.json')) as f:
+            sugo = json.load(f)
+    if checkJSONvalidity(sugo):
+        parts = int(sugo['parts'])
+        createPartDirs(parts)
+        i = 0
+        while i < parts:
+            legends = sugo['part{}legends'.format(i+1)]
+            rrs = sugo['part{}rr'.format(i+1)]
+            legendpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}legends'.format(i+1))
+            rrpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}rr'.format(i+1))
+            c = 0
+            for x in legends:
+                downloadThumbnail(x, legendpath, c + 1)
+                c += 1
+            c = 0
+            for x in rrs:
+                downloadThumbnail(x, rrpath, c + 1)
+                c += 1
+            i += 1
+        print("Done Downloading Character Thumbnails")
+        return parts
+
     parts = int(input("How Many parts exist in this sugofest? "))
     createPartDirs(parts)
     i = 0
@@ -38,7 +77,7 @@ def getUserInputs():
         count = 0
         while charid.lower() != 'end':
             if charid.isdigit():
-                downloadThumbnail(charid, path)
+                downloadThumbnail(charid, path, count + 1)
             else:
                 print("Invalid Character ID. Type 'end' to stop adding characters to this category")
             charid = input("What is the character id of the boosted rare recruit in Part {}: ".format(i+1))
