@@ -13,6 +13,8 @@ PATH = os.path.join(my_path, "images")
 
 if not os.path.exists(PATH):
     os.makedirs(PATH)
+else:
+    userinput.del_images()
 
 output_dict = {}
 

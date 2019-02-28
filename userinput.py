@@ -4,6 +4,14 @@ import requests
 import shutil
 import json
 
+def del_images():
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    PATH = os.path.join(my_path, "images")
+    a = [x[0] for x in os.walk(PATH)]
+    a.pop(0)
+    for i in a:
+        shutil.rmtree(i)
+
 def createPartDirs(n):
     i = 0
     while i < n:
