@@ -54,5 +54,5 @@ def generate_clumped_image(subpath):
 
     if not os.path.exists(os.path.join(PATH, 'outputs')):
         os.makedirs(os.path.join(PATH, 'outputs'))
-    new_im.save("{}\\{}.png".format(os.path.join(PATH, 'outputs'), subpath), "PNG")
+    new_im.save("{}/{}.png".format(os.path.join(PATH, 'outputs'), subpath), "PNG")
     return retdict

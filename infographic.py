@@ -11,7 +11,7 @@ from math import ceil, floor
 import textwrap
 
 my_path = os.path.abspath(os.path.dirname(__file__))
-OUTPUTS = os.path.join(my_path, "images\\outputs")
+OUTPUTS = os.path.join(my_path, "images/outputs")
 
 def generate_part(legend_img, rr_img, img_width, img_height, rows, name, text):
     part_width = img_width * 7
@@ -63,8 +63,8 @@ def create_canvas(partlist, margin, banner):
             max_height = i.height
     height = max_height + 2 * margin + banner.height
     width = (partlist[0].width * len(partlist)) + (margin * (len(partlist) + 1))
-    if not os.path.exists(os.path.join(my_path, 'images\\background.png')):
+    if not os.path.exists(os.path.join(my_path, 'images/background.png')):
         return Image.new('RGBA', (width, height), (0,255,255,255))
     else:
-        img = Image.open(os.path.join(my_path, 'images\\background.png'))
+        img = Image.open(os.path.join(my_path, 'images/background.png'))
         return img.resize((width, height), PIL.Image.ANTIALIAS)

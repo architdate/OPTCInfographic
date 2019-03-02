@@ -15,8 +15,8 @@ def del_images():
 def createPartDirs(n):
     i = 0
     while i < n:
-        legenddir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}legends'.format(i+1))
-        rrdir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}rr'.format(i+1))
+        legenddir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images/part{}legends'.format(i+1))
+        rrdir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images/part{}rr'.format(i+1))
         if not os.path.exists(legenddir):
             os.makedirs(legenddir)
         if not os.path.exists(rrdir):
@@ -49,8 +49,8 @@ def getUserInputs():
         while i < parts:
             legends = sugo['part{}legends'.format(i+1)]
             rrs = sugo['part{}rr'.format(i+1)]
-            legendpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}legends'.format(i+1))
-            rrpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}rr'.format(i+1))
+            legendpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images/part{}legends'.format(i+1))
+            rrpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images/part{}rr'.format(i+1))
             c = 0
             for x in legends:
                 downloadThumbnail(x, legendpath, c + 1)
@@ -70,7 +70,7 @@ def getUserInputs():
     while i < parts:
         print("To end inputs for a specific part, type 'end' without quotes")
         charid = input("What is the character id of the boosted legend in Part {}: ".format(i+1))
-        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}legends'.format(i+1))
+        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images/part{}legends'.format(i+1))
         count = 0
         while charid.lower() != 'end':
             if charid.isdigit():
@@ -81,7 +81,7 @@ def getUserInputs():
             count += 1
 
         charid = input("What is the character id of the boosted rare recruit in Part {}: ".format(i+1))
-        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images\\part{}rr'.format(i+1))
+        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'images/part{}rr'.format(i+1))
         count = 0
         while charid.lower() != 'end':
             if charid.isdigit():
